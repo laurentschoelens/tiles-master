@@ -226,7 +226,7 @@
         <plugin>
             <groupId>org.sonatype.central</groupId>
             <artifactId>central-publishing-maven-plugin</artifactId>
-            <version>0.11.0</version>
+            <version>0.12.0</version>
             <extensions>true</extensions>
             <configuration>
                 <autoPublish>${release.autoPublish}</autoPublish>
@@ -240,7 +240,7 @@
         <plugin>
             <groupId>org.jacoco</groupId>
             <artifactId>jacoco-maven-plugin</artifactId>
-            <version>0.8.8</version>
+            <version>0.8.15</version>
         </plugin>
       </plugins>
     </pluginManagement>
@@ -248,7 +248,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-enforcer-plugin</artifactId>
-          <version>3.2.1</version>
+          <version>3.6.3</version>
           <executions>
             <execution>
               <id>enforce-java</id>
@@ -286,7 +286,7 @@
         </plugin>
         <plugin>
             <artifactId>maven-checkstyle-plugin</artifactId>
-            <version>3.2.1</version>
+            <version>3.6.0</version>
             <inherited>true</inherited>
             <configuration>
 				<cacheFile>${checkstyle.cache.file}</cacheFile>
@@ -414,15 +414,15 @@
         <plugins>
             <plugin>
                 <artifactId>maven-surefire-report-plugin</artifactId>
-                <version>3.0.0</version>
+                <version>3.6.0</version>
             </plugin>
             <plugin>
                 <artifactId>maven-checkstyle-plugin</artifactId>
-                <version>3.2.1</version>
+                <version>3.6.0</version>
             </plugin>
             <plugin>
                 <artifactId>maven-jxr-plugin</artifactId>
-                <version>3.3.0</version>
+                <version>3.6.0</version>
                 <reportSets>
                     <reportSet>
                         <reports>
@@ -433,14 +433,14 @@
             </plugin>
             <plugin>
                 <artifactId>maven-pmd-plugin</artifactId>
-                <version>3.20.0</version>
+                <version>3.28.0</version>
                 <configuration>
                   <targetJdk>17</targetJdk>
                 </configuration>
             </plugin>
             <plugin>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.5.0</version>
+                <version>3.12.0</version>
                 <reportSets>
                     <reportSet>
                         <id>aggregated</id>
@@ -474,7 +474,7 @@
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.8.8</version>
+                <version>0.8.15</version>
             </plugin>
         </plugins>
     </reporting>
