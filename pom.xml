@@ -283,16 +283,6 @@
 		  </configuration>
         </plugin>
         <plugin>
-            <artifactId>maven-release-plugin</artifactId>
-            <inherited>true</inherited>
-            <configuration>
-                <useReleaseProfile>false</useReleaseProfile>
-                <goals>deploy</goals>
-                <releaseProfiles>apache-release</releaseProfiles>
-                <autoVersionSubmodules>true</autoVersionSubmodules>
-            </configuration>
-        </plugin>
-        <plugin>
             <artifactId>maven-checkstyle-plugin</artifactId>
             <version>3.6.0</version>
             <inherited>true</inherited>
@@ -491,6 +481,13 @@
             <id>oss-release</id>
             <build>
                 <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-deploy-plugin</artifactId>
+                        <configuration>
+                            <skip>true</skip>
+                        </configuration>
+                    </plugin>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-enforcer-plugin</artifactId>
