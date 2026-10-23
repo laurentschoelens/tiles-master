@@ -287,7 +287,6 @@
             <version>3.6.0</version>
             <inherited>true</inherited>
             <configuration>
-				<cacheFile>${checkstyle.cache.file}</cacheFile>
                 <checkstyleRules>
 				    <module name="Checker">
 					    <module name="TreeWalker">
