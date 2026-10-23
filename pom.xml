@@ -492,6 +492,7 @@
                         <artifactId>central-publishing-maven-plugin</artifactId>
                         <extensions>true</extensions>
                         <configuration>
+                            <autoPublish>false</autoPublish>
                             <publishingServerId>ossrh-central</publishingServerId>
                             <deploymentName>tiles-master-${project.version}</deploymentName>
                             <waitUntil>uploaded</waitUntil>
