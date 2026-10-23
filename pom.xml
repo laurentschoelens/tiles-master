@@ -24,16 +24,17 @@
     <artifactId>apache</artifactId>
     <version>29</version>
   </parent>
-  <groupId>org.apache.tiles</groupId>
+  <groupId>io.github.laurentschoelens.tiles</groupId>
   <artifactId>tiles-master</artifactId>
   <version>8-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>Apache Tiles (Master POM)</name>
 
   <scm>
-    <connection>scm:svn:http://svn.apache.org/repos/asf/tiles/maven/trunk/pom</connection>
-    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/tiles/maven/trunk/pom</developerConnection>
-    <url>http://svn.apache.org/repos/asf/tiles/maven/trunk/pom</url>
+    <connection>scm:git:https://github.com/laurentschoelens/tiles-master.git</connection>
+    <developerConnection>scm:git:https://github.com/laurentschoelens/tiles-master.git</developerConnection>
+    <url>https://github.com/laurentschoelens/tiles-master</url>
+    <tag>HEAD</tag>
   </scm>
 
   <description>
@@ -45,6 +46,10 @@
 
   <properties>
       <maven.version.minimum>3.2.2</maven.version.minimum>
+      <oss.disallow.snapshots>true</oss.disallow.snapshots>
+      <release.projectName>${project.name}</release.projectName>
+      <release.autoPublish>true</release.autoPublish>
+      <release.waitUntil>validated</release.waitUntil>
   </properties>
 
   <mailingLists>
@@ -210,7 +215,32 @@
           <configuration>
             <source>17</source>
             <target>17</target>
+            <release>17</release>
           </configuration>
+        </plugin>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-gpg-plugin</artifactId>
+            <version>3.2.8</version>
+        </plugin>
+        <plugin>
+            <groupId>org.sonatype.central</groupId>
+            <artifactId>central-publishing-maven-plugin</artifactId>
+            <version>0.11.0</version>
+            <extensions>true</extensions>
+            <configuration>
+                <autoPublish>${release.autoPublish}</autoPublish>
+                <deploymentName>${release.projectName} ${project.version}</deploymentName>
+                <publishingServerId>central</publishingServerId>
+                <waitUntil>${release.waitUntil}</waitUntil>
+                <centralBaseUrl>https://central.sonatype.com</centralBaseUrl>
+                <centralSnapshotsUrl>https://central.sonatype.com/repository/maven-snapshots/</centralSnapshotsUrl>
+            </configuration>
+          </plugin>
+        <plugin>
+            <groupId>org.jacoco</groupId>
+            <artifactId>jacoco-maven-plugin</artifactId>
+            <version>0.8.8</version>
         </plugin>
       </plugins>
     </pluginManagement>
@@ -226,41 +256,26 @@
               <configuration>
                 <rules>
                   <requireJavaVersion>
-                    <version>[17,18)</version>
+                    <version>[17,)</version>
                   </requireJavaVersion>
                 </rules>
               </configuration>
             </execution>
           </executions>
         </plugin>
-        <!-- Make sure Java 9 classes and methods aren't accidentally used -->
-        <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>animal-sniffer-maven-plugin</artifactId>
-            <version>1.22</version>
-            <configuration>
-                <signature>
-                    <groupId>org.codehaus.mojo.signature</groupId>
-                    <artifactId>java18</artifactId>
-                    <version>1.0</version>
-                </signature>
-            </configuration>
-            <executions>
-                <execution>
-                    <goals>
-                        <goal>check</goal>
-                    </goals>
-                </execution>
-            </executions>
-        </plugin>
         <plugin>
             <artifactId>maven-site-plugin</artifactId>
             <!-- required for MSITE-683 -->
-            <version>3.12.1</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <configuration>
+			  <argLine>${surefireArgLine}</argLine>
+		  </configuration>
         </plugin>
         <plugin>
             <artifactId>maven-release-plugin</artifactId>
-            <version>3.0.0-M7</version>
             <inherited>true</inherited>
             <configuration>
                 <useReleaseProfile>false</useReleaseProfile>
@@ -271,17 +286,89 @@
         </plugin>
         <plugin>
             <artifactId>maven-checkstyle-plugin</artifactId>
-            <version>2.17</version>
+            <version>3.2.1</version>
             <inherited>true</inherited>
-            <dependencies>
-              <dependency>
-                <groupId>com.puppycrawl.tools</groupId>
-                <artifactId>checkstyle</artifactId>
-                <version>8.2</version>
-              </dependency>
-            </dependencies>
             <configuration>
-                <configLocation>${project.basedir}/build/tiles_checks_v8.xml</configLocation>
+				<cacheFile>${checkstyle.cache.file}</cacheFile>
+                <checkstyleRules>
+				    <module name="Checker">
+					    <module name="TreeWalker">
+					        <module name="JavadocMethod" />
+					        <module name="JavadocType"/>
+					        <module name="JavadocVariable"/>
+					        <module name="JavadocStyle"/>
+					        <module name="ConstantName"/>
+					        <module name="LocalFinalVariableName"/>
+					        <module name="LocalVariableName"/>
+					        <module name="MemberName"/>
+					        <module name="MethodName"/>
+					        <module name="PackageName"/>
+					        <module name="ParameterName"/>
+					        <module name="StaticVariableName"/>
+					        <module name="TypeName"/>
+					        <module name="AvoidStarImport">
+					            <!-- doesn't work with maven-checkstyle-plugin-2.6 (was introduced in checkstyle-5.3) -->
+					            <!--property name="allowStaticMemberImports" value="true"/-->
+					        </module>
+					        <module name="IllegalImport"/>
+					        <module name="RedundantImport"/>
+					        <module name="UnusedImports"/>
+					        <module name="MethodLength"/>
+					        <module name="EmptyForIteratorPad"/>
+					        <module name="NoWhitespaceAfter">
+					            <property name="tokens" value="BNOT,DEC,DOT,INC,LNOT,UNARY_MINUS,UNARY_PLUS"/>
+					        </module>
+					        <module name="NoWhitespaceBefore"/>
+					        <module name="OperatorWrap"/>
+					        <module name="ParenPad"/>
+					        <module name="TypecastParenPad"/>
+					        <module name="WhitespaceAfter"/>
+					        <module name="WhitespaceAround">
+					            <property name="tokens" value="ASSIGN,BAND,BAND_ASSIGN,BOR,BOR_ASSIGN,BSR,BSR_ASSIGN,BXOR,BXOR_ASSIGN,COLON,DIV,DIV_ASSIGN,EQUAL,GE,GT,LAND,LCURLY,LE,LITERAL_ASSERT,LITERAL_CATCH,LITERAL_DO,LITERAL_ELSE,LITERAL_FINALLY,LITERAL_FOR,LITERAL_IF,LITERAL_RETURN,LITERAL_SYNCHRONIZED,LITERAL_TRY,LITERAL_WHILE,LOR,LT,MINUS,MINUS_ASSIGN,MOD,MOD_ASSIGN,NOT_EQUAL,PLUS,PLUS_ASSIGN,QUESTION,RCURLY,SL,SLIST,SL_ASSIGN,SR,SR_ASSIGN,STAR,STAR_ASSIGN,LITERAL_ASSERT,TYPE_EXTENSION_AND"/>
+					        </module>
+					        <module name="ModifierOrder"/>
+					        <module name="RedundantModifier"/>
+					        <module name="AvoidNestedBlocks"/>
+					        <module name="EmptyBlock"/>
+					        <module name="LeftCurly"/>
+					        <module name="NeedBraces"/>
+					        <module name="RightCurly"/>
+					        <module name="EmptyStatement"/>
+					        <module name="EqualsHashCode"/>
+					        <module name="IllegalInstantiation"/>
+					        <module name="InnerAssignment"/>
+					        <module name="MissingSwitchDefault"/>
+					        <module name="SimplifyBooleanExpression"/>
+					        <module name="SimplifyBooleanReturn"/>
+					        <module name="FinalClass"/>
+					        <module name="HideUtilityClassConstructor"/>
+					        <module name="InterfaceIsType"/>
+					        <module name="VisibilityModifier">
+					            <property name="protectedAllowed" value="true"/>
+					        </module>
+					        <module name="ArrayTypeStyle"/>
+					        <module name="TodoComment"/>
+					        <module name="UpperEll"/>
+					    </module>
+				        <module name="LineLength">
+				            <property name="ignorePattern" value="^ \* @version .*$"/>
+				            <property name="max" value="120"/>
+				        </module>
+					    <module name="RegexpHeader">
+					        <property name="header" value="/\*\s*\n \*\s*\$Id.*\$\n \*\s*\n \*\s*Licensed to the Apache Software Foundation \(ASF\) under one\n \*\s*or more contributor license agreements\.  See the NOTICE file\n \*\s*distributed with this work for additional information\n \*\s*regarding copyright ownership\.  The ASF licenses this file\n \*\s*to you under the Apache License, Version 2\.0 \(the\n \*\s*.License.\); you may not use this file except in compliance\n \*\s*with the License\.  You may obtain a copy of the License at\n \*\s*\n \*\s*http://www\.apache\.org/licenses/LICENSE\-2\.0\n \*\s*\n \*\s*Unless required by applicable law or agreed to in writing,\n \*\s*software distributed under the License is distributed on an\n \*\s*.AS IS. BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY\n \*\s*KIND, either express or implied\.  See the License for the\n \*\s*specific language governing permissions and limitations\n \*\s*under the License\.\n \*/\s*"/>
+					    </module>
+					    <module name="RegexpSingleline">
+					        <property name="format" value="\s+$"/>
+					        <property name="message" value="Line has trailing spaces."/>
+					    </module>
+					    <module name="FileLength"/>
+					    <module name="FileTabCharacter"/>
+					    <module name="JavadocPackage"/>
+					    <module name="NewlineAtEndOfFile"/>
+					    <module name="Translation"/>
+					</module>
+				</checkstyleRules>
+				<excludes>p${project.build.directory}</excludes>
             </configuration>
             <executions>
                 <execution>
@@ -293,6 +380,33 @@
                 </execution>
             </executions>
         </plugin>
+        <plugin>
+			<groupId>org.jacoco</groupId>
+			<artifactId>jacoco-maven-plugin</artifactId>
+			<executions>
+				<execution>
+					<id>pre-unit-test</id>
+					<goals>
+						<goal>prepare-agent</goal>
+					</goals>
+					<configuration>
+						<destFile>${jacoco.ut.execution.data.file}</destFile>
+						<propertyName>surefireArgLine</propertyName>
+					</configuration>
+				</execution>
+				<execution>
+					<id>post-unit-test</id>
+					<phase>test</phase>
+					<goals>
+						<goal>report</goal>
+					</goals>
+					<configuration>
+						<dataFile>${jacoco.ut.execution.data.file}</dataFile>
+						<outputDirectory>${project.reporting.outputDirectory}/jacoco-ut</outputDirectory>
+					</configuration>
+				</execution>
+			</executions>
+		</plugin>
     </plugins>
   </build>
 
@@ -304,10 +418,7 @@
             </plugin>
             <plugin>
                 <artifactId>maven-checkstyle-plugin</artifactId>
-                <version>2.17</version>
-                <configuration>
-                    <configLocation>http://svn.apache.org/repos/asf/tiles/maven/trunk/build/tiles_checks_v8.xml</configLocation>
-                </configuration>
+                <version>3.2.1</version>
             </plugin>
             <plugin>
                 <artifactId>maven-jxr-plugin</artifactId>
@@ -335,23 +446,10 @@
                         <id>aggregated</id>
                         <configuration>
                             <aggregate>true</aggregate>
-                            <excludePackageNames>org.apache.tiles.test</excludePackageNames>
+                            <excludePackageNames>io.github.laurentschoelens.tiles.test</excludePackageNames>
                             <links>
                                 <link>http://download.java.net/java/jdk9/docs/api/</link>
-                                <link>http://docs.oracle.com/javaee/6/api</link>
                             </links>
-                            <doclet>org.umlgraph.doclet.UmlGraphDoc</doclet>
-                            <docletArtifact>
-                                <groupId>org.umlgraph</groupId>
-                                <artifactId>umlgraph</artifactId>
-                                <version>5.6</version>
-                            </docletArtifact>
-                            <additionalparam>
-                                -inferrel -inferdep -quiet -hide java.*
-                                -collpackages java.util.* -qualify
-                                -postfixpackage -nodefontsize 9
-                                -nodefontpackagesize 7
-                            </additionalparam>
                         </configuration>
                         <reports>
                             <report>aggregate</report>
@@ -374,11 +472,42 @@
                 </configuration>
             </plugin>
             <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>cobertura-maven-plugin</artifactId>
-                <version>2.7</version>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.8</version>
             </plugin>
         </plugins>
     </reporting>
-
+    <profiles>
+        <profile>
+            <id>oss-release</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-enforcer-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>enforce-no-snapshots</id>
+                                <goals>
+                                    <goal>enforce</goal>
+                                </goals>
+                                <configuration>
+                                    <rules>
+                                        <requireReleaseDeps>
+                                            <message>No SNAPSHOT dependency allowed!</message>
+                                        </requireReleaseDeps>
+                                        <requireReleaseVersion>
+                                            <message>release version no SNAPSHOT Allowed!</message>
+                                        </requireReleaseVersion>
+                                    </rules>
+                                    <fail>${oss.disallow.snapshots}</fail>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>
