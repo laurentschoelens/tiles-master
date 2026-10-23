@@ -46,6 +46,14 @@
 
   <properties>
       <maven.version.minimum>3.2.2</maven.version.minimum>
+
+      <distMgmtReleasesId>ossrh-central</distMgmtReleasesId>
+      <distMgmtReleasesName>Sonatype Central Release Distribution Repository</distMgmtReleasesName>
+      <distMgmtReleasesUrl>https://ossrh-staging-api.central.sonatype.com/service/local/staging/deploy/maven2/</distMgmtReleasesUrl>
+      <distMgmtSnapshotsId>ossrh-central</distMgmtSnapshotsId>
+      <distMgmtSnapshotsName>Sonatype Central Snapshot Repository</distMgmtSnapshotsName>
+      <distMgmtSnapshotsUrl>https://central.sonatype.com/repository/maven-snapshots/</distMgmtSnapshotsUrl>
+
       <oss.disallow.snapshots>true</oss.disallow.snapshots>
       <release.projectName>${project.name}</release.projectName>
       <release.autoPublish>true</release.autoPublish>
