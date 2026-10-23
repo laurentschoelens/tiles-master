@@ -26,7 +26,7 @@
   </parent>
   <groupId>io.github.laurentschoelens.tiles</groupId>
   <artifactId>tiles-master</artifactId>
-  <version>10.1</version>
+  <version>10.2-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>Apache Tiles (Master POM)</name>
 
@@ -34,7 +34,7 @@
     <connection>scm:git:https://github.com/laurentschoelens/tiles-master.git</connection>
     <developerConnection>scm:git:https://github.com/laurentschoelens/tiles-master.git</developerConnection>
     <url>https://github.com/laurentschoelens/tiles-master</url>
-    <tag>tiles-master-10.1</tag>
+    <tag>HEAD</tag>
   </scm>
 
   <description>
@@ -304,7 +304,7 @@
                         </module>
 
                         <module name="RegexpHeader">
-                            <property name="header" value="/\*\s*\n \*\s*\$Id.*\$\n \*\s*\n \*\s*Licensed to the Apache Software Foundation \(ASF\) under one\n \*\s*or more contributor license agreements\. See the NOTICE file\n \*\s*distributed with this work for additional information\n \*\s*regarding copyright ownership\. The ASF licenses this file\n \*\s*to you under the Apache License, Version 2\.0 \(the\n \*\s*.License.\); you may not use this file except in compliance\n \*\s*with the License\. You may obtain a copy of the License at\n \*\s*\n \*\s*http://www\.apache\.org/licenses/LICENSE\-2\.0\n \*\s*\n \*\s*Unless required by applicable law or agreed to in writing,\n \*\s*software distributed under the License is distributed on an\n \*\s*.AS IS. BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY\n \*\s*KIND, either express or implied\.  See the License for the\n \*\s*specific language governing permissions and limitations\n \*\s*under the License\.\n \*/\s*" />
+                            <property name="header" value="/\*\s*\n \*\s*\$Id.*\$\n \*\s*\n \*\s*Licensed to the Apache Software Foundation \(ASF\) under one\n \*\s*or more contributor license agreements\. See the NOTICE file\n \*\s*distributed with this work for additional information\n \*\s*regarding copyright ownership\. The ASF licenses this file\n \*\s*to you under the Apache License, Version 2\.0 \(the\n \*\s*.License.\); you may not use this file except in compliance\n \*\s*with the License\. You may obtain a copy of the License at\n \*\s*\n \*\s*http://www\.apache\.org/licenses/LICENSE\-2\.0\n \*\s*\n \*\s*Unless required by applicable law or agreed to in writing,\n \*\s*software distributed under the License is distributed on an\n \*\s*.AS IS. BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY\n \*\s*KIND, either express or implied\. See the License for the\n \*\s*specific language governing permissions and limitations\n \*\s*under the License\.\n \*/\s*" />
                         </module>
 
                         <module name="RegexpSingleline">
