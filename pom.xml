@@ -280,7 +280,7 @@
             <configuration>
                 <useReleaseProfile>false</useReleaseProfile>
                 <goals>deploy</goals>
-                <arguments>-Papache-release </arguments>
+                <releaseProfiles>apache-release</releaseProfiles>
                 <autoVersionSubmodules>true</autoVersionSubmodules>
             </configuration>
         </plugin>
