@@ -54,7 +54,8 @@
       <distMgmtSnapshotsName>Sonatype Central Snapshot Repository</distMgmtSnapshotsName>
       <distMgmtSnapshotsUrl>https://central.sonatype.com/repository/maven-snapshots/</distMgmtSnapshotsUrl>
 
-      <central.deployment.name>${project.artifactId}-${project.version}</central.deployment.name>
+      <central.deployment.basename>${project.artifactId}</central.deployment.basename>
+      <central.deployment.name>${central.deployment.basename}-${project.version}</central.deployment.name>
       <oss.disallow.snapshots>true</oss.disallow.snapshots>
       <release.projectName>${project.name}</release.projectName>
       <release.autoPublish>true</release.autoPublish>
@@ -250,6 +251,18 @@
             <groupId>org.jacoco</groupId>
             <artifactId>jacoco-maven-plugin</artifactId>
             <version>0.8.15</version>
+        </plugin>
+        <plugin>
+            <groupId>org.apache.rat</groupId>
+            <artifactId>apache-rat-plugin</artifactId>
+            <configuration>
+                <inputExcludes>
+                    <exclude>README.md</exclude>
+                    <exclude>%ant[**/*.sql]</exclude>
+                    <exclude>%ant[**/*LICENSE.*]</exclude>
+                    <exclude>%ant[**/*MANIFEST.MF]</exclude>
+                </inputExcludes>
+            </configuration>
         </plugin>
       </plugins>
     </pluginManagement>
@@ -462,16 +475,6 @@
             <plugin>
                 <groupId>org.apache.rat</groupId>
                 <artifactId>apache-rat-plugin</artifactId>
-                <configuration>
-                    <includes>
-                        <include>pom.xml</include>
-                        <include>src/**</include>
-                    </includes>
-                    <excludes>
-                        <exclude>**/*LICENSE.txt</exclude>
-                        <exclude>**/*MANIFEST.MF</exclude>
-                    </excludes>
-                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.jacoco</groupId>
