@@ -14,6 +14,8 @@
     OR CONDITIONS OF ANY KIND, either express or implied. See the
     License for the specific language governing permissions and
     limitations under the License.
+
+    Modified by Laurent Schoelens, 2026
   -->
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
@@ -317,7 +319,8 @@
                         </module>
 
                         <module name="RegexpHeader">
-                            <property name="header" value="/\*\s*\n \*\s*\$Id.*\$\n \*\s*\n \*\s*Licensed to the Apache Software Foundation \(ASF\) under one\n \*\s*or more contributor license agreements\. See the NOTICE file\n \*\s*distributed with this work for additional information\n \*\s*regarding copyright ownership\. The ASF licenses this file\n \*\s*to you under the Apache License, Version 2\.0 \(the\n \*\s*.License.\); you may not use this file except in compliance\n \*\s*with the License\. You may obtain a copy of the License at\n \*\s*\n \*\s*http://www\.apache\.org/licenses/LICENSE\-2\.0\n \*\s*\n \*\s*Unless required by applicable law or agreed to in writing,\n \*\s*software distributed under the License is distributed on an\n \*\s*.AS IS. BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY\n \*\s*KIND, either express or implied\. See the License for the\n \*\s*specific language governing permissions and limitations\n \*\s*under the License\.\n \*/\s*" />
+                            <property name="header" value="/\*\s*$\n \*\s*(\$Id.*\$|Copyright 20[2-9][0-9](-20[2-9][0-9])? Laurent Schoelens)\s*$\n \*\s*$\n \*\s*(Licensed to the Apache Software Foundation \(ASF\) under one|Licensed under the Apache License, Version 2\.0 \(the .License.\);)\s*$\n \*\s*or more contributor license agreements\.\s+See the NOTICE file\s*$\n \*\s*distributed with this work for additional information\s*$\n \*\s*regarding copyright ownership\.\s+The ASF licenses this file\s*$\n \*\s*to you under the Apache License, Version 2\.0 \(the\s*$\n \*\s*.License.\); you may not use this file except in compliance\s*$\n \*\s*with the License\.\s+You may obtain a copy of the License at\s*$\n \*\s*$\n \*\s*https?://www\.apache\.org/licenses/LICENSE\-2\.0\s*$\n \*\s*$\n \*\s*Unless required by applicable law or agreed to in writing,\s*$\n \*\s*software distributed under the License is distributed on an\s*$\n \*\s*.AS IS. BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY\s*$\n \*\s*KIND, either express or implied\.\s+See the License for the\s*$\n \*\s*specific language governing permissions and limitations\s*$\n \*\s*under the License\.\s*$\n \*\s*$\n \*\s*Modified by Laurent Schoelens, 20[2-9][0-9](-20[2-9][0-9])?\s*$\n \*/\s*$" />
+                            <property name="multiLines" value="2, 3, 5, 6, 7, 8, 20, 21" />
                         </module>
 
                         <module name="RegexpSingleline">
